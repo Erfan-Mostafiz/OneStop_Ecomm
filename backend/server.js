@@ -3,6 +3,13 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database")
 
+// Handling Uncaight Exception
+process.on("uncaughtException", (err) => {
+    console.log(`Error: ${err.message}`);
+    console.log(`Shutting down the server due to Uncaught Exception`);
+    process.exit(1);
+});
+
 //Config
 dotenv.config({ path: "backend/config/config.env" }); // recognize the config env
 
