@@ -113,5 +113,32 @@ exports.forgotPassword = catchAsyncErrors(async(req, res, next) => {
 
 // Reset Password
 exports.resetPassword = catchAsyncErrors(async(req, res, next) => {
+
+    // Creating Token Hash
     const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
-})
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpired: { $gt: Date.now() }, // Token Expiry date must be greater than now time
+    });
+
+    // if false
+    if (!user) {
+        return next(new ErrorHandler("Reset Password Token is invalid or has been expired", 400));
+    }
+
+    // if two passwords don't match
+    if (req.body.password != req.body.confirmPassword) {
+        return next(new ErrorHandler("Password does not match", 400));
+    }
+
+    // Reset password - True
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpired = undefined;
+
+    await user.save();
+
+    sendToken(user, 200, res); // Auto Login after password reset
+
+});
