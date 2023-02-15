@@ -142,3 +142,59 @@ exports.resetPassword = catchAsyncErrors(async(req, res, next) => {
     sendToken(user, 200, res); // Auto Login after password reset
 
 });
+
+// Get User Details
+exports.getUserDetails = catchAsyncErrors(async(req, res, next) => {
+
+    const user = await User.findById(req.user.id); // will always be true, bcoz this can always be accessed by only those who are logged in
+    // Their id is definitely there
+
+    res.status(200).json({
+        success: true,
+        user, // send the user details
+    });
+});
+
+
+// Update Password
+exports.updatePassword = catchAsyncErrors(async(req, res, next) => {
+
+    const user = await User.findById(req.user.id).select("+password"); // bcoz will also select password which is set to false by default
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+    // if password doesn't match
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler("Old password is incorrect", 400));
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+        return next(new ErrorHandler("Password does not match", 400));
+    }
+
+    user.password = req.body.newPassword;
+
+    await user.save();
+
+    sendToken(user, 200, res); // Stay logged in after update password
+});
+
+// Update User Profile
+exports.updateProfile = catchAsyncErrors(async(req, res, next) => {
+
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+    };
+
+    // I will add cloudinary avatar later
+
+    const user = User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true
+    });
+});
