@@ -57,8 +57,13 @@ userSchema.methods.getJWTToken = function() {
     // {id:this._id} = this user's id
     // process.env.JWT_SECRET - a key which only the user has access to. 
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE // expire the token
-    })
+        expiresIn: process.env.JWT_EXPIRE, // expire the token
+    });
+};
+
+// Compare Password
+userSchema.methods.comparePassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
 }
 
 module.exports = mongoose.model("User", userSchema);
