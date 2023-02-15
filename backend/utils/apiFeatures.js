@@ -31,7 +31,16 @@ class ApiFeatures {
         const removeFields = ["keyword", "page", "limit"];
         removeFields.forEach(key => delete queryCopy[key]);
 
-        this.query = this.query.find(queryCopy); // Product.find()
+        // Filter for Price and Rating - Will show products within a price range
+
+        let queryStr = JSON.stringify(queryCopy); // converting the object to string
+        // gt = greater than, lt = less than, gte = greater than or equal to, lte = less than or equal to
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, key => `$${key}`);
+
+
+        // JSON.parse(queryCopy) to convert it back to object from string
+        this.query = this.query.find(JSON.parse(queryStr)); // Product.find()
+
         return this;
     }
 };
