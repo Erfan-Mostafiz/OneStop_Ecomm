@@ -1,4 +1,4 @@
-# EcommWebsite
+# Responsive Ecommerce Website using latest tech stack
 MERN stack based online Ecommerce Website Project.
 
 I'm working and developing a responsive ecommerce platform using the following stack:
