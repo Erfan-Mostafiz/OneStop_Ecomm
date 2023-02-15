@@ -3,7 +3,7 @@ const catchAsyncErrors = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-const isAuthenticatedUser = catchAsyncErrors(async(req, res, next) => {
+exports.isAuthenticatedUser = catchAsyncErrors(async(req, res, next) => {
     const { token } = req.cookies;
 
     // if token not found
@@ -20,4 +20,21 @@ const isAuthenticatedUser = catchAsyncErrors(async(req, res, next) => {
 
 });
 
-module.exports = isAuthenticatedUser;
+// Admin Authorize
+// ...roles --> Array
+exports.authorizeRoles = (...roles) => {
+
+    return (req, res, next) => {
+
+        // req.user contains full user data
+        const isAdmin = roles.includes(req.user.role); // roles.includes(req.user.role) checks if the user role is inside the Roles Array
+
+        // if not admin
+        if (!isAdmin) {
+            return next(new ErrorHandler(`Role: ${req.user.role} is not allowed to access this resource`, 403));
+        }
+
+        // if Admin
+        next();
+    };
+};
