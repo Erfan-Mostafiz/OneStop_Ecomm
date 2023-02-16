@@ -12,12 +12,14 @@ const router = express.Router();
 
 router.route("/products").get(getAllProducts); // get the controller route
 
-router.route("/product/new").post(isAuthenticatedUser, authorizeRoles("admin"), createProduct); // create product route [admin]
+router.route("/admin/product/new").post(isAuthenticatedUser, authorizeRoles("admin"), createProduct); // create product route [admin]
 
-router.route("/product/:id")
+router.route("/admin/product/:id")
     .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct) // update product route [admin]
     .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct) // delete product route [admin]
-    .get(getProductDetails); // single product route
+
+
+router.route("/product/:id").get(getProductDetails); // single product route
 
 
 
