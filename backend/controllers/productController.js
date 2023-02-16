@@ -94,5 +94,47 @@ exports.deleteProduct = catchAsyncErrors(async(req, res, next) => {
     res.status(200).json({ // then throw message
         success: true,
         message: "Product deleted successfully"
-    })
+    });
+});
+
+// Create New Review or Update the review
+exports.createProductReview = catchAsyncErrors(async(req, res, next) => {
+    const { rating, comment, productId } = req.body;
+    const review = {
+        user: req.user._id, // the user who is giving review
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+    };
+
+    const product = await Product.findById(productId); // the product for which the review
+
+    const isReviewed = product.reviews.find(
+        (rev) => rev.user.toString() === req.user._id.toString()
+    );
+    // rev.user.toString() === req.user._id means your id and the user who has previously given review is the same id. Update it
+
+    if (isReviewed) { // previously reviewed
+        product.reviews.forEach((rev) => {
+            if (rev.user.toString() === req.user._id.toString()) {
+                (rev.rating = rating), (rev.comment = comment);
+            }
+        });
+    } else {
+        product.reviews.push(review);
+        product.numOfReviews = product.reviews.length;
+    }
+
+    // Overall rating -- average
+    let avg = 0;
+    product.ratings = product.reviews.forEach(rev => {
+        avg += rev.rating; // forEach gets the total
+    }) / product.reviews.length; // divided by number of reviews
+
+    await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+    });
+
 });
