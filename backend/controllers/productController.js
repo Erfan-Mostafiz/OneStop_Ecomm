@@ -127,11 +127,62 @@ exports.createProductReview = catchAsyncErrors(async(req, res, next) => {
 
     // Overall rating -- average
     let avg = 0;
-    product.ratings = product.reviews.forEach(rev => {
-        avg += rev.rating; // forEach gets the total
-    }) / product.reviews.length; // divided by number of reviews
+
+    product.reviews.forEach((rev) => {
+        avg += rev.rating;
+    });
+
+    product.ratings = avg / product.reviews.length;
 
     await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+    });
+
+});
+
+// Get all reviews of a product
+exports.getProductReviews = catchAsyncErrors(async(req, res, next) => {
+    const product = await Product.findById(req.query.id);
+
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        reviews: product.reviews,
+    });
+
+});
+
+// Delete Review
+exports.DeleteReview = catchAsyncErrors(async(req, res, next) => {
+    const product = await Product.findById(req.query.productId);
+
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    // Reviews which we dont want to delete
+    const reviews = product.reviews.filter(rev => rev._id.toString() !== req.query.id.toString());
+
+    // Now update overall ratings for the product after delete a review
+    let avg = 0;
+
+    // reviews remaining
+    reviews.forEach((rev) => {
+        avg += rev.rating;
+    });
+
+    const ratings = avg / reviews.length;
+
+    const numOfReviews = reviews.length;
+
+    await Product.findByIdAndUpdate(
+        req.query.productId, { reviews, ratings, numOfReviews }, { new: true, runValidators: true, useFindAndModify: false }
+    );
 
     res.status(200).json({
         success: true,
