@@ -8,10 +8,10 @@ const Footer = () => {
   return (
     <footer id = "footer">
         <div class = "leftFooter">
-            <h4>Downlaod our OneStop App</h4>
+            <h4>DOWNLOAD OUR ONESTOP APP</h4>
             <p>Download app for IOS and Android phones</p>
-            <img src={appStore} alt="appStore" />
-            <img src= {playStore} alt="playStore" />
+            <img id = "storeLink" src={appStore} alt="appStore" />
+            <img id = "storeLink" src= {playStore} alt="playStore" />
 
         </div>
 
@@ -19,12 +19,12 @@ const Footer = () => {
             <img id ="logo" src={logo} alt="OneStop Logo" />
             {/* <h1>OneStop</h1>
             <p>YOUR ONESTOP MARKET FOR EVERYTHING</p> */}
-            <p>Copyrights 2023 &copy; Erfan Mostafiz</p>
+            <p>Copyrights 2023 &copy; <a href="https://github.com/Erfan-Mostafiz">Erfan Mostafiz</a></p>
 
         </div>
 
         <div class = "rightFooter">
-            <h4>Follow Us</h4>
+            <h4>FOLLOW US</h4>
             <a href="https://github.com/Erfan-Mostafiz">GitHub</a>
             <a href="https://www.linkedin.com/in/erfan-mostafiz/">LinkedIn</a>
             <a href="https://www.facebook.com/erfan.mostafiz/">FaceBook</a>

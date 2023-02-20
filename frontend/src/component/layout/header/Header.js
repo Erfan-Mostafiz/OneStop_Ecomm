@@ -8,7 +8,8 @@ import {MdAddShoppingCart} from "react-icons/md";
 const options = {
     burgerColorHover: "#eb4034",
     logo,
-    logoWidth: "20vmax",
+    logoWidth: "15vmax",
+    // logoHeight: "15vmax",
     navColor1: "#E5E0FF",
     logoHoverSize: "10px",
     logoHoverColor: "#80489C",
@@ -30,6 +31,10 @@ const options = {
     nav4justifyContent: "flex-start",
     link1ColorHover: "#C47AFF",
     link1Margin: "1vmax",
+    link1Padding: "1vmax",
+    link2Padding: "2vmax",
+    link3Padding: "2vmax",
+    link4Padding: "2vmax",
     // link2Margin: "1vmax",
     // link3Margin: "1vmax",
     // link4Margin: "1vmax",
@@ -47,6 +52,8 @@ const options = {
     searchIconColorHover: "#C47AFF",
     cartIconColorHover: "#C47AFF",
     cartIconMargin: "1vmax",
+    searchIconSize: "2.5vmax",           
+    cartIconSize: "2.5vmax"           
    
   };
   

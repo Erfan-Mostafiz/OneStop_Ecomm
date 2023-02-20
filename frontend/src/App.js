@@ -1,9 +1,10 @@
 import './App.css';
 import Header from "./component/layout/header/Header.js";
 import Footer from "./component/layout/footer/Footer.js";
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router,Route} from "react-router-dom";
 import WebFont from "webfontloader";
 import React from "react";
+import Home from "./component/Home/Home.js"
 
 
 function App() {
@@ -18,12 +19,19 @@ function App() {
   
   }, [])
   
-  return (<Router>
-      <Header />
+  return (
+    <Router>
+          <Header />
 
-      <Footer />
+    
+          <Route exact path ="/" element = {<Home />}/>
+        
+    
 
-  </Router> 
+            <Footer />
+
+    </Router> 
+
   );
 }
 
