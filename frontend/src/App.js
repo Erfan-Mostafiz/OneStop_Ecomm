@@ -21,14 +21,10 @@ function App() {
   
   return (
     <Router>
-          <Header />
-
-    
-          <Route exact path ="/" element = {<Home />}/>
-        
-    
-
-            <Footer />
+      <Header />
+      <Route exact path = "/" component = {Home} />
+      
+      <Footer />
 
     </Router> 
 
