@@ -27,7 +27,7 @@ const Footer = () => {
             <h4>FOLLOW US</h4>
             <a href="https://github.com/Erfan-Mostafiz">GitHub</a>
             <a href="https://www.linkedin.com/in/erfan-mostafiz/">LinkedIn</a>
-            <a href="https://www.facebook.com/erfan.mostafiz/">FaceBook</a>
+            <a href="https://www.facebook.com/erfan.mostafiz/">Facebook</a>
             <a href="https://www.instagram.com/erfan_mostafiz/">Instagram</a>
 
         </div>
