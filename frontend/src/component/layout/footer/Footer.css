@@ -96,4 +96,5 @@ footer {
 
 .rightFooter>a:hover {
     color: #C47AFF;
+    text-decoration: underline;
 }
