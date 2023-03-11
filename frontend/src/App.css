@@ -1,0 +1,6 @@
+/* Universal Selector */
+
+* {
+    margin: 0;
+    scroll-behavior: smooth;
+}
